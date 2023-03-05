@@ -14,6 +14,5 @@ const conn = async() => {
 		console.error(error);
 	}
 };
-conn();
 
 export {conn}
