@@ -19,13 +19,14 @@ const userCreateValidation = () => {
 			.withMessage("A senha precisa ter no minimo 5 caracteres"),
 		body("confirmPassword")
 			.isString()
+			.notEmpty()
 			.withMessage("A confirmação de senha é obrigatória")
-		.custom((value, { req }) => {
-			if(value != req.body.password){
-				throw new Error("As senhas não conincidem");
-			}
-			return true;
-		}),
+			.custom((value, { req }) => {
+				if(value != req.body.password){
+					throw new Error("As senhas não conincidem");
+				}
+				return true;
+			}),
 	];
 };
 //Authenticate and login the user
@@ -33,11 +34,13 @@ const loginValidation = () =>{
 	return [
 		body("email")
 			.isString()
+			.notEmpty()
 			.withMessage("O e-mail é obrigatório")
 			.isEmail()
 			.withMessage("Insira em e-mail válido"),
 		body("password")
 			.isString()
+			.notEmpty()
 			.withMessage("A senha é obrigatória")
 	]
 };

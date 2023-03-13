@@ -1,32 +1,36 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import Home from './pages/Home/Home'
+import Login from './pages/Auth/Login'
+import Register from './pages/Auth/Register'
+import Footer from './components/Footer'
+import Navbar from './components/Navbar'
+import { useAuth } from './hooks/useAuth'
+import EditProfile from './pages/editProfile/EditProfile'
+import Profile from './pages/Profile/Profile'
 
 function App() {
-  const [count, setCount] = useState(0)
+	const { auth, loading } = useAuth();
+	if(loading){
+		return <p>Carregando...</p>
+	};
+
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+						<Navbar/>
+							<div className="container">
+								<Routes>
+									<Route path='/' element={auth ? <Home/> : <Navigate  to='/login'/>}/>
+									<Route path='/profile' element={auth ? <EditProfile/> : <Navigate  to='/'/>}/>
+									<Route path='/users/:id' element={auth ? <Profile/> : <Navigate  to='/'/>}/>
+									<Route path='/login' element={!auth ? <Login/> : <Navigate  to='/'/> }/>
+									<Route path='/register' element={!auth ? <Register/> : <Navigate  to='/'/>}/>
+								</Routes>
+							</div>
+							<Footer/>
+						</BrowserRouter>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 dotenv.config();
 
 import User from '../models/User';
@@ -9,7 +9,7 @@ import mongoose from "mongoose";
 const jwtSecret = process.env.JWT_SECRET;
 
 //Generate user token
-const generateToken = (id) => {
+const generateToken = (id: mongoose.Types.ObjectId) => {
 	return jsonwebtoken.sign({ id }, jwtSecret, {
 		expiresIn: "7d",
 	});

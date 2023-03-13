@@ -22,7 +22,7 @@ const imageUpload = multer({
 		if(!file.originalname.match(/\.(png|jpg)$/)){
 			return cb(new Error("Insira apenas PNG ou JPG"));
 		};
-		cb(null, true);
+		cb(undefined, true);
 	}
 });
 

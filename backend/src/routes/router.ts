@@ -10,9 +10,4 @@ router.use("/api/users", userRoutes);
 import { router as photoRoutes } from "./PhotoRoutes";
 router.use("/api/photos", photoRoutes);
 
-
-router.get("/", (req,res) => {
-	res.send({"message" : "Rota funcionando!"});
-});
-
 export { router };
