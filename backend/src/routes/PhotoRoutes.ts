@@ -15,7 +15,7 @@ const router = express.Router();
 router.post("/", authGuard, imageUpload.single("image"), photoInsertValidation(), validate, insertPhoto);
 router.delete("/:id", authGuard, deletePhoto);
 router.get("/", authGuard, getAllPhotos);
-router.get("/user/:id", authGuard, getPhotosByUserId);
+router.get("/user/:id", getPhotosByUserId);
 router.get("/search", authGuard, searchPhotos);
 router.get("/:id", authGuard, getPhotoById);
 router.put("/:id", authGuard, photoUpdateValidation(), validate, updatePhotoById);

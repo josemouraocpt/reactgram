@@ -109,7 +109,7 @@ const updatePhotoById = async(req, res) => {
 
 	await photo.save();
 
-	res.status(200).json(photo);
+	res.status(200).json( {photo, message: "Foto atualizada com sucesso" });
 };
 
 //like function
@@ -144,6 +144,7 @@ const comment = async(req, res) => {
 	const {id} = req.params;
 	const {comment} = req.body;
 	const reqUser = req.user;
+	const user = await User.findById(reqUser._id);
 	const photo = await Photo.findById(id);
 
 	if(!photo){
@@ -151,25 +152,26 @@ const comment = async(req, res) => {
 		return;
 	};
 
-	photo.comments.push({
-		userId: reqUser._id,
-		comment: comment,
-		userName: reqUser.name,
-		userImage: reqUser.profileImage
-	});
+	const userComment = {
+		comment,
+		userName: user.name,
+  userImage: user.profileImage,
+  userId: user._id,
+	};
+
+	photo.comments.push(userComment);
 
 	await photo.save();
 
 	res.status(200).json({
-		photoId: id,
-		userId: reqUser._id,
+		comment: userComment,
 		message: "O comentário foi incluido"
 	});
 };
 
 //find a photo
 const searchPhotos = async(req, res) => {
-	const {q} = req.params;
+	const { q } = req.query;
 	const photos = await Photo.find({title: new RegExp(q, "i")}).exec();
 	res.status(200).json(photos);
 }
